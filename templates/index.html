@@ -1,0 +1,13 @@
+<html>
+<body>
+<h1>Some Graphs</h1>
+<form action="/graph/3" method="get">
+    <button name="forwardBtn" type="submit">Forward</button>
+</form>
+<p>
+{% if result != None %}
+<img src="data:image/png;base64,{{ result }}" width="500">
+{% endif %}
+</p>
+</body>
+</html>

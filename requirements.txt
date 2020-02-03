@@ -1,0 +1,5 @@
+Flask==1.1.1
+pytest
+pylint
+pandas
+wikipedia
