@@ -1,0 +1,24 @@
+<html>
+<h1>Stock Price from Company: "{{ name }}" </h1>
+
+<form class="form-inline" method="POST" action="/" }}">
+	<div class="form-group">
+		<div class="input-group">
+			<span class="input-group-addon">Please select</span>
+			<select name="comp_select" class="selectpicker form-control">
+				{% for o in data %}
+				<option value="{{ o }}">{{ o }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<button type="submit" class="btn btn-default">Go</button>
+	</div>
+</form>
+
+<p>
+{% if result != None %}
+<img src="data:image/png;base64,{{ result }}" width="900">
+{% endif %}
+</p>
+
+</html>
