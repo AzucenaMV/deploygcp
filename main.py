@@ -10,7 +10,7 @@ from io import BytesIO
 import base64
 
 app = Flask(__name__)
-table = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/SP500table.csv")
+table = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/table_sub.csv")
 df = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/stock_prices_sub.csv")
 
 @app.route('/',methods=['GET', 'POST'])
