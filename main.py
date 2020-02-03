@@ -10,10 +10,10 @@ from io import BytesIO
 import base64
 
 app = Flask(__name__)
-table = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/table_sub.csv")
-df = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/stock_prices_sub.csv")
+table = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/table.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/stock_prices.csv")
 
-@app.route('/',methods=['GET', 'POST'])
+@app.route('/graph/',methods=['GET', 'POST'])
 def index2():
     stock = request.form.get('comp_select')
     if stock == None:
@@ -25,9 +25,9 @@ def index2():
     plt.plot(df['Date'],df[stock], color = '#a2b969')
     plt.ylabel('Price (USD)', fontsize=40)
     plt.xlabel('Date', fontsize=40)
-    plt.savefig('/tmp/square_plot.png')
+    #plt.savefig('/tmp/square_plot.png')
     ### Saving plot to disk in png format
-    #plt.savefig('static/images/square_plot.png')
+    plt.savefig('static/images/square_plot.png')
     ### Rendering Plot in Html
     figfile = BytesIO()
     plt.savefig(figfile, format='png')
@@ -39,6 +39,14 @@ def index2():
         'index2.html',
         data=list(df)[3::],result=result,stock=stock, name = name)
 
+@app.route('/',methods=['GET', 'POST'])
+def hist_price():
+    stock = request.form.get('comp_select')
+    if stock == None:
+        stock='AAL'
+    name = table[table['Symbol'] == stock].Security.values[0]
+    df['Date'] = pd.to_datetime(df['Date'],infer_datetime_format=True)
+    return jsonify(df[stock].to_dict())
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
