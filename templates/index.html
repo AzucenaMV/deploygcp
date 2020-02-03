@@ -1,0 +1,14 @@
+<form class="form-inline" method="POST" action="/json" }}">
+	<div class="form-group">
+		<div class="input-group">
+			<span class="input-group-addon">Please select the ticker</span>
+			<select name="comp_select" class="selectpicker form-control">
+				{% for o in data %}
+				<option value="{{ o }}">{{ o }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<button type="submit" class="btn btn-default">Process</button>
+	</div>
+</form>
+</html>

@@ -1,8 +1,6 @@
-from flask import Flask, render_template,redirect,flash,request,url_for
-from flask import jsonify
+from flask import Flask, render_template,redirect,flash,request,url_for,jsonify
 import pandas as pd
 import numpy as np
-import wikipedia
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -10,8 +8,9 @@ from io import BytesIO
 import base64
 
 app = Flask(__name__)
-table = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/table.csv")
-df = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/stock_prices.csv")
+table = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/SP500table.csv")
+df = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/stock_prices_sub.csv")
+df.set_index('Date',inplace=True)
 
 @app.route('/graph/',methods=['GET', 'POST'])
 def index2():
@@ -40,12 +39,19 @@ def index2():
         data=list(df)[3::],result=result,stock=stock, name = name)
 
 @app.route('/',methods=['GET', 'POST'])
+def index_view():
+    stock = request.form.get('comp_select')
+    if stock == None:
+        stock='AAL'
+    return render_template(
+        'index.html',
+        data=list(df)[3::])
+
+@app.route('/json',methods=['GET', 'POST'])
 def hist_price():
     stock = request.form.get('comp_select')
     if stock == None:
         stock='AAL'
-    name = table[table['Symbol'] == stock].Security.values[0]
-    df['Date'] = pd.to_datetime(df['Date'],infer_datetime_format=True)
     return jsonify(df[stock].to_dict())
 
 if __name__ == '__main__':
