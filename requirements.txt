@@ -3,3 +3,6 @@ pytest
 pylint
 pandas
 wikipedia
+numpy
+matplotlib
+
