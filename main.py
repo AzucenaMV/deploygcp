@@ -14,13 +14,15 @@ app = Flask(__name__)
 
 @app.route('/<stock>')
 def index(stock):
+
     df = pd.read_csv("https://raw.githubusercontent.com/AzucenaMV/CapstoneProject/master/data/sp500/stock_prices.csv")
-    ### Generating The Plot
     df['Date'] = pd.to_datetime(df['Date'],infer_datetime_format=True)
-    plt.plot(df['Date'],df[stock])
-    ### Saving plot to disk in png format
-    plt.savefig('static/images/square_plot.png')
-    #plt.savefig('/tmp/square_plot.png')
+    plt.figure(figsize=(40,20))
+    plt.title('Stock Price: {}'.format(stock), fontsize=60)
+    plt.plot(df['Date'],df[stock], color = '#a2b969')
+    plt.ylabel('Price (USD)', fontsize=40)
+    plt.xlabel('Date', fontsize=40)
+    plt.savefig('/tmp/square_plot.png')
 
     ### Rendering Plot in Html
     figfile = BytesIO()
