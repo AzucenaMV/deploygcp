@@ -1,0 +1,26 @@
+<html>
+<body bgcolor="#6697cc">
+<p style="font-family:Courier; font-size: 30px; font-weight: bold">Options</p>
+<div style="width:200px;">
+    <div style="float: left; width: 100px"> 
+        <form action="/getcsv/{{stock}}" method="get">
+            <button name="forwardBtn" type="submit">Download</button>
+        </form> 
+    </div>
+    <div style="float: right; width: 100px"> 
+        <form action="/json/{{stock}}" method="get">
+            <button name="forwardBtn" type="submit">JSON View</button>
+        </form>
+    </div>
+</div>
+<form action="/" method="get">
+    <button name="forwardBtn" type="submit">Back</button>
+</form>
+
+</html>
+
+
+
+
+
+

@@ -1,7 +1,10 @@
-<form class="form-inline" method="POST" action="/json" }}">
+<html>
+<body bgcolor="#6697cc">
+<p style="font-family:Courier; font-size: 30px; font-weight: bold">Stock Prices from S&P500</p>
+<form class="form-inline" method="POST" action="/options" }}">
 	<div class="form-group">
 		<div class="input-group">
-			<span class="input-group-addon">Please select the ticker</span>
+			<span class="input-group-addon">Please select</span>
 			<select name="comp_select" class="selectpicker form-control">
 				{% for o in data %}
 				<option value="{{ o }}">{{ o }}</option>

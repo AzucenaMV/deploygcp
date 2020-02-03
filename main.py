@@ -1,4 +1,4 @@
-from flask import Flask, render_template,redirect,flash,request,url_for,jsonify
+from flask import Flask, render_template,redirect,flash,request,url_for,jsonify,Response
 import pandas as pd
 import numpy as np
 import matplotlib
@@ -18,7 +18,7 @@ def index2():
     if stock == None:
         stock='AAL'
     name = table[table['Symbol'] == stock].Security.values[0]
-    df['Date'] = pd.to_datetime(df['Date'],infer_datetime_format=True)
+    df['Date'] = pd.to_datetime(df.index,infer_datetime_format=True)
     plt.figure(figsize=(40,20))
     plt.title('Stock Price: {}'.format(stock), fontsize=60)
     plt.plot(df['Date'],df[stock], color = '#a2b969')
@@ -47,12 +47,31 @@ def index_view():
         'index.html',
         data=list(df)[3::])
 
-@app.route('/json',methods=['GET', 'POST'])
-def hist_price():
+@app.route('/json/<stock>',methods=['GET', 'POST'])
+def hist_price(stock):
     stock = request.form.get('comp_select')
     if stock == None:
         stock='AAL'
     return jsonify(df[stock].to_dict())
+
+@app.route('/options',methods=['GET', 'POST'])
+def options():
+    stock = request.form.get('comp_select')
+    if stock == None:
+        stock='AAL'
+    return render_template(
+        'download.html',
+        data=list(df)[3::],stock=stock)
+
+@app.route("/getcsv/<stock>")
+def getPlotCSV(stock):
+    filter_data = df[stock]
+    csv = filter_data.to_csv()
+    return Response(
+        csv,
+        mimetype="text/csv",
+        headers={"Content-disposition":
+                 "attachment; filename="+stock+".csv"})
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
